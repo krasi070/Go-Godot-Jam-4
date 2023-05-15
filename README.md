@@ -1,7 +1,7 @@
 # Go Godot Jam 4
 <h3>itch.io Link</h3>
 <p>
-You can play the game here: [https://krasi0707.itch.io/the-adventures-of-the-heroic-fox](https://krasi0707.itch.io/you-wake-up-in-a-forest-its-raining)
+You can play the game here: https://krasi0707.itch.io/the-adventures-of-the-heroic-fox
 </p>
 <h3>Description</h3>
 <p>
