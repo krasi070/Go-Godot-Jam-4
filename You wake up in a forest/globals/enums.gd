@@ -1,0 +1,18 @@
+extends Node
+
+enum Item {
+	HANDGUN,
+	BULLET,
+	HONEY,
+	KNIFE,
+	FLASHLIGHT,
+	KEY,
+}
+
+enum Flag {
+	SHOT_FOX = 0,
+	ATE_MUSHROOM = 1,
+	KILLED_STRANGER = 2,
+	GAVE_STRANGER_HONEY = 3,
+	HAS_MET_BEAR = 4,
+}

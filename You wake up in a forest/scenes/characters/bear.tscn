@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://bq1aoalhtqpid"]
+
+[ext_resource type="Texture2D" uid="uid://cf1rjl5ek4whr" path="res://assets/sprites/effects/shadow.png" id="1_3suin"]
+[ext_resource type="FontFile" uid="uid://b52imn1wavve0" path="res://assets/fonts/bpdots.squares-bold.otf" id="2_lpk5f"]
+[ext_resource type="Script" path="res://scenes/ui/secret_message.gd" id="3_36um8"]
+[ext_resource type="Texture2D" uid="uid://bvmoqpai1wnrj" path="res://assets/sprites/characters/bear.png" id="3_nsaa5"]
+
+[node name="Bear" type="Node2D"]
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+self_modulate = Color(0.611765, 0.882353, 0, 1)
+position = Vector2(-1.52588e-05, 77.0058)
+scale = Vector2(0.65, 0.203)
+texture = ExtResource("1_3suin")
+
+[node name="SecretMessage" type="Label" parent="."]
+offset_left = -50.0038
+offset_top = 76.0057
+offset_right = 611.996
+offset_bottom = 167.006
+scale = Vector2(0.1, 0.1)
+theme_override_colors/font_color = Color(0.368627, 0.368627, 0.368627, 1)
+theme_override_fonts/font = ExtResource("2_lpk5f")
+theme_override_font_sizes/font_size = 100
+text = "give honey"
+script = ExtResource("3_36um8")
+
+[node name="CharacterSprite" type="Sprite2D" parent="."]
+position = Vector2(7.20436, 41.8201)
+rotation = -0.0721206
+scale = Vector2(0.31121, 0.313888)
+texture = ExtResource("3_nsaa5")

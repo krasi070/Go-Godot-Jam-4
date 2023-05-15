@@ -1,0 +1,162 @@
+[gd_scene load_steps=25 format=3 uid="uid://b2pueyi7ftasw"]
+
+[ext_resource type="Shader" path="res://assets/shaders/palette_filter.gdshader" id="1_2gefx"]
+[ext_resource type="PackedScene" uid="uid://c2xq7itf6iudl" path="res://scenes/background.tscn" id="1_ucy6m"]
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_y7v27"]
+[ext_resource type="Texture2D" uid="uid://dfraikolh42y" path="res://assets/sprites/palette.png" id="2_7cykk"]
+[ext_resource type="PackedScene" uid="uid://bhq0uci65ag61" path="res://scenes/flashlight.tscn" id="2_26mon"]
+[ext_resource type="PackedScene" uid="uid://cak3afmm7dpnq" path="res://scenes/ui/edge_areas.tscn" id="3_0aqcl"]
+[ext_resource type="Texture2D" uid="uid://d3hxgl65h1ku5" path="res://assets/sprites/effects/rain_drop.png" id="3_pq85s"]
+[ext_resource type="PackedScene" uid="uid://cjwfq5dtbp1cy" path="res://scenes/ui/item_box.tscn" id="4_7p341"]
+[ext_resource type="Texture2D" uid="uid://b4uy8cy5vv3uk" path="res://assets/sprites/items/honey.png" id="6_stltu"]
+[ext_resource type="Texture2D" uid="uid://dty1sm0c7gbqw" path="res://assets/sprites/items/knife.png" id="7_03x0f"]
+[ext_resource type="Texture2D" uid="uid://cvgu1crv4otv4" path="res://assets/sprites/items/flashlight.png" id="8_14duu"]
+[ext_resource type="PackedScene" uid="uid://ypk01mqo01bu" path="res://scenes/ui/hint_text.tscn" id="9_0bkp4"]
+[ext_resource type="Script" path="res://scenes/ui/items_container.gd" id="9_eeo41"]
+[ext_resource type="Texture2D" uid="uid://dcuyxoffu1vi5" path="res://assets/sprites/items/key.png" id="9_vk4d5"]
+[ext_resource type="PackedScene" uid="uid://bv6e2p2bqkfxd" path="res://scenes/ui/text_box.tscn" id="15_lriqr"]
+[ext_resource type="PackedScene" uid="uid://dx13ity4yjnge" path="res://scenes/transition_fade.tscn" id="17_h6ap2"]
+[ext_resource type="PackedScene" uid="uid://jp3xlynte2y" path="res://scenes/ui/command_line.tscn" id="17_ngbsj"]
+[ext_resource type="Script" path="res://scenes/states/main/main_state_story.gd" id="22_2uxfa"]
+[ext_resource type="Script" path="res://scenes/states/main/main_state_tutorial.gd" id="22_wdd34"]
+[ext_resource type="Script" path="res://scenes/states/main/main_state_action_result.gd" id="23_n7snd"]
+[ext_resource type="Script" path="res://scenes/states/main/main_state_action.gd" id="23_rh6n1"]
+[ext_resource type="Script" path="res://scenes/states/main/main_state_end.gd" id="24_befxf"]
+[ext_resource type="Script" path="res://scenes/states/main/main_state_death.gd" id="25_fkmdw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_58tfh"]
+shader = ExtResource("1_2gefx")
+shader_parameter/palette_size = 9
+shader_parameter/palette = ExtResource("2_7cykk")
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_y7v27")
+
+[node name="Background" parent="." instance=ExtResource("1_ucy6m")]
+
+[node name="Event" type="Node2D" parent="."]
+position = Vector2(144, 108)
+scale = Vector2(0.999925, 0.999925)
+
+[node name="EdgeAreas" parent="." instance=ExtResource("3_0aqcl")]
+visible = false
+
+[node name="Flashlight" parent="." instance=ExtResource("2_26mon")]
+position = Vector2(90, 173)
+metadata/_edit_lock_ = true
+
+[node name="RainParticles" type="CPUParticles2D" parent="."]
+visible = false
+position = Vector2(200, -80)
+amount = 800
+lifetime = 0.8
+preprocess = 4.0
+speed_scale = 0.3
+texture = ExtResource("3_pq85s")
+emission_shape = 3
+emission_rect_extents = Vector2(200, 1)
+gravity = Vector2(-300, 980)
+scale_amount_min = 0.1
+scale_amount_max = 0.2
+
+[node name="ItemsContainer" type="HBoxContainer" parent="."]
+z_index = 12
+offset_left = 49.0
+offset_top = 5.0
+offset_right = 239.0
+offset_bottom = 35.0
+theme_override_constants/separation = 10
+alignment = 1
+script = ExtResource("9_eeo41")
+
+[node name="HandgunItemBox" parent="ItemsContainer" instance=ExtResource("4_7p341")]
+layout_mode = 2
+item_types = Array[int]([0, 1])
+hint_texts = Array[String](["[center][color=#febcb8]shoot _[/color]
+0 bullets[/center]", "[center][color=#febcb8]shoot _[/color]
+1 bullet[/center]"])
+
+[node name="HoneyItemBox" parent="ItemsContainer" instance=ExtResource("4_7p341")]
+layout_mode = 2
+textures = Array[Texture]([ExtResource("6_stltu")])
+item_types = Array[int]([2])
+hint_texts = Array[String](["[center][color=#febcb8]_ honey[/color][/center]"])
+
+[node name="KnifeItemBox" parent="ItemsContainer" instance=ExtResource("4_7p341")]
+layout_mode = 2
+textures = Array[Texture]([ExtResource("7_03x0f")])
+item_types = Array[int]([3])
+hint_texts = Array[String](["[center][color=#febcb8]cut _[/color][/center]"])
+
+[node name="FlashlightItemBox" parent="ItemsContainer" instance=ExtResource("4_7p341")]
+layout_mode = 2
+textures = Array[Texture]([ExtResource("8_14duu")])
+item_types = Array[int]([4])
+hint_texts = Array[String](["[center][color=#febcb8]switch[/color][/center]"])
+
+[node name="KeyItemBox" parent="ItemsContainer" instance=ExtResource("4_7p341")]
+layout_mode = 2
+textures = Array[Texture]([ExtResource("9_vk4d5")])
+item_types = Array[int]([5])
+hint_texts = Array[String](["[center][color=#febcb8]unlock[/color][/center]"])
+
+[node name="TextBox" parent="." instance=ExtResource("15_lriqr")]
+clip_contents = false
+
+[node name="CommandLine" parent="." instance=ExtResource("17_ngbsj")]
+text = "sth sth "
+
+[node name="HintText" parent="." instance=ExtResource("9_0bkp4")]
+visible = false
+custom_minimum_size = Vector2(600, 0)
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 600.0
+offset_bottom = 610.0
+grow_horizontal = 1
+grow_vertical = 1
+theme_override_constants/line_separation = 2
+text = "[center][color=#febcb8]west[/color]
+the silence of a dead end deafens you[/center]"
+fit_content = true
+metadata/_edit_lock_ = true
+
+[node name="TransitionFade" parent="." instance=ExtResource("17_h6ap2")]
+z_index = 20
+color = Color(0, 0, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="PaletteFilter" type="ColorRect" parent="."]
+z_index = 1000
+material = SubResource("ShaderMaterial_58tfh")
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 308.0
+offset_bottom = 236.0
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="States" type="Node" parent="."]
+
+[node name="Story" type="Node" parent="States"]
+script = ExtResource("22_2uxfa")
+
+[node name="Action" type="Node" parent="States"]
+script = ExtResource("23_rh6n1")
+
+[node name="Tutorial" type="Node" parent="States"]
+script = ExtResource("22_wdd34")
+
+[node name="Death" type="Node" parent="States"]
+script = ExtResource("25_fkmdw")
+
+[node name="ActionResult" type="Node" parent="States"]
+script = ExtResource("23_n7snd")
+
+[node name="End" type="Node" parent="States"]
+script = ExtResource("24_befxf")

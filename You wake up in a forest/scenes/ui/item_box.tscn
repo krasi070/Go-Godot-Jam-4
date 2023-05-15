@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cjwfq5dtbp1cy"]
+
+[ext_resource type="Script" path="res://scenes/ui/item_box.gd" id="1_tejnl"]
+[ext_resource type="Texture2D" uid="uid://cmk448kj6kejl" path="res://assets/sprites/items/handgun.png" id="2_ih7kc"]
+[ext_resource type="Texture2D" uid="uid://buktmelmnhire" path="res://assets/sprites/items/bullet.png" id="3_w1g6f"]
+
+[node name="ItemBox" type="ColorRect"]
+custom_minimum_size = Vector2(30, 30)
+color = Color(0, 0, 0, 1)
+script = ExtResource("1_tejnl")
+textures = Array[Texture]([ExtResource("2_ih7kc"), ExtResource("3_w1g6f")])
+
+[node name="ItemBoxForeground" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 32.0
+offset_bottom = 32.0

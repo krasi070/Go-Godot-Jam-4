@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://c1fcdjv2vwjnd"]
+
+[ext_resource type="Texture2D" uid="uid://cf1rjl5ek4whr" path="res://assets/sprites/effects/shadow.png" id="1_3d38k"]
+[ext_resource type="FontFile" uid="uid://b52imn1wavve0" path="res://assets/fonts/bpdots.squares-bold.otf" id="2_2kiwm"]
+[ext_resource type="Texture2D" uid="uid://tg7sol3oc05" path="res://assets/sprites/characters/squirrel.png" id="3_xmwtt"]
+[ext_resource type="Script" path="res://scenes/ui/secret_message.gd" id="3_xrec3"]
+[ext_resource type="Texture2D" uid="uid://3kvlu68ar0wk" path="res://assets/sprites/miscellaneous/fedora.png" id="4_ap461"]
+
+[node name="Squirrel" type="Node2D"]
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+self_modulate = Color(0.611765, 0.882353, 0, 1)
+position = Vector2(-1.52588e-05, 77.0058)
+scale = Vector2(0.65, 0.203)
+texture = ExtResource("1_3d38k")
+
+[node name="SecretMessage" type="Label" parent="."]
+offset_left = -50.0
+offset_top = 78.0
+offset_right = 611.999
+offset_bottom = 169.0
+scale = Vector2(0.1, 0.1)
+theme_override_colors/font_color = Color(0.368627, 0.368627, 0.368627, 1)
+theme_override_fonts/font = ExtResource("2_2kiwm")
+theme_override_font_sizes/font_size = 100
+text = "mushroom"
+script = ExtResource("3_xrec3")
+
+[node name="CharacterSprite" type="Sprite2D" parent="."]
+position = Vector2(6.09204, 55.0043)
+scale = Vector2(0.0578465, 0.053954)
+texture = ExtResource("3_xmwtt")
+
+[node name="Hat" type="Sprite2D" parent="CharacterSprite"]
+position = Vector2(171.093, -66.2119)
+rotation = -0.591962
+scale = Vector2(1.05676, 1.05676)
+texture = ExtResource("4_ap461")

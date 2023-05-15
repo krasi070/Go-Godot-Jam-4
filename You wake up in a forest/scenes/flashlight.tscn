@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhq0uci65ag61"]
+
+[ext_resource type="Texture2D" uid="uid://bxndkxpp21ikl" path="res://assets/sprites/effects/light.png" id="1_kbbif"]
+[ext_resource type="Script" path="res://scenes/flashlight.gd" id="2_ggeu3"]
+
+[node name="Flashlight" type="PointLight2D"]
+color = Color(1, 0.952941, 0.819608, 1)
+energy = 0.15
+range_z_max = 10
+texture = ExtResource("1_kbbif")
+script = ExtResource("2_ggeu3")

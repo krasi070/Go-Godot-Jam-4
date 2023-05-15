@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://bgh14fc43tjv6"]
+
+[ext_resource type="Script" path="res://scenes/audio_controller.gd" id="1_61jae"]
+[ext_resource type="AudioStream" uid="uid://cl6fbykeeerqt" path="res://assets/audio/rain_loop.mp3" id="2_dx6wi"]
+[ext_resource type="AudioStream" uid="uid://ccq4ws7j8k8if" path="res://assets/audio/hum_loop.mp3" id="3_ck7r8"]
+[ext_resource type="AudioStream" uid="uid://pq6saw2v3bdg" path="res://assets/audio/click.mp3" id="4_fc153"]
+[ext_resource type="AudioStream" uid="uid://diaov73ymvm41" path="res://assets/audio/gunshot.mp3" id="5_5ncn1"]
+[ext_resource type="AudioStream" uid="uid://bcf6bfeivyqdc" path="res://assets/audio/door_open.mp3" id="6_5mrq5"]
+
+[node name="AudioController" type="Node"]
+script = ExtResource("1_61jae")
+
+[node name="RainLoopPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_dx6wi")
+volume_db = -80.0
+pitch_scale = 1.5
+
+[node name="HumLoopPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ck7r8")
+volume_db = -80.0
+
+[node name="ClickPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_fc153")
+
+[node name="GunshotPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_5ncn1")
+volume_db = -10.0
+pitch_scale = 1.5
+
+[node name="DoorOpenPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_5mrq5")
+volume_db = 10.0
+pitch_scale = 1.5

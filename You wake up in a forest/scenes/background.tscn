@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2xq7itf6iudl"]
+
+[ext_resource type="Texture2D" uid="uid://v8qwepbyyjle" path="res://assets/sprites/locations/bedroom.jpg" id="1_mch6n"]
+[ext_resource type="Script" path="res://scenes/background.gd" id="2_5122q"]
+
+[node name="Background" type="Sprite2D"]
+self_modulate = Color(0.603922, 0.603922, 0.603922, 1)
+position = Vector2(144.5, 108)
+scale = Vector2(0.261905, 0.149471)
+texture = ExtResource("1_mch6n")
+script = ExtResource("2_5122q")

@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://bv1tasf4ft46c"]
+
+[ext_resource type="Texture2D" uid="uid://dbxsu87r35epo" path="res://assets/sprites/characters/mysterious_man.png" id="1_7goyr"]
+[ext_resource type="Texture2D" uid="uid://bxndkxpp21ikl" path="res://assets/sprites/effects/light.png" id="2_7cs0s"]
+
+[node name="Man" type="Node2D"]
+
+[node name="CharacterSprite" type="Sprite2D" parent="."]
+self_modulate = Color(0.196078, 0.196078, 0.196078, 1)
+position = Vector2(0, 9.00073)
+scale = Vector2(0.093, 0.066)
+texture = ExtResource("1_7goyr")
+
+[node name="RightEye" type="PointLight2D" parent="."]
+position = Vector2(10.0008, -9.00068)
+scale = Vector2(1.00007, 1.00007)
+color = Color(1, 0, 0, 1)
+energy = 22.0
+range_z_max = 10
+texture = ExtResource("2_7cs0s")
+texture_scale = 0.03
+
+[node name="LeftEye" type="PointLight2D" parent="."]
+position = Vector2(20.0015, -5.00038)
+scale = Vector2(1.00007, 1.00007)
+color = Color(1, 0, 0, 1)
+energy = 22.0
+range_z_max = 10
+texture = ExtResource("2_7cs0s")
+texture_scale = 0.03

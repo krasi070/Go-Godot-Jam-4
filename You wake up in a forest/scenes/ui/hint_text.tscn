@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://ypk01mqo01bu"]
+
+[ext_resource type="FontFile" uid="uid://b52imn1wavve0" path="res://assets/fonts/bpdots.squares-bold.otf" id="1_qyykp"]
+[ext_resource type="Script" path="res://scenes/ui/hint_text.gd" id="2_14u8y"]
+
+[node name="HintText" type="RichTextLabel"]
+z_index = 11
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 38.0
+offset_top = 40.0
+offset_right = 598.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.1, 0.1)
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 35
+theme_override_fonts/normal_font = ExtResource("1_qyykp")
+theme_override_font_sizes/normal_font_size = 100
+bbcode_enabled = true
+text = "[center]shoot _
+0 bullets[/center]"
+script = ExtResource("2_14u8y")

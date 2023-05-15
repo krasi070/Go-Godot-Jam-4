@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://vo11ogcq8il5"]
+
+[ext_resource type="Texture2D" uid="uid://cf1rjl5ek4whr" path="res://assets/sprites/effects/shadow.png" id="1_01qcl"]
+[ext_resource type="FontFile" uid="uid://b52imn1wavve0" path="res://assets/fonts/bpdots.squares-bold.otf" id="2_phefl"]
+[ext_resource type="Script" path="res://scenes/ui/secret_message.gd" id="3_hp3tk"]
+[ext_resource type="Texture2D" uid="uid://b4uy8cy5vv3uk" path="res://assets/sprites/items/honey.png" id="4_2o6hd"]
+
+[node name="Honey" type="Node2D"]
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+self_modulate = Color(0.611765, 0.882353, 0, 1)
+position = Vector2(-1.52588e-05, 77.0058)
+scale = Vector2(0.65, 0.203)
+texture = ExtResource("1_01qcl")
+
+[node name="SecretMessage" type="Label" parent="."]
+offset_left = -67.0051
+offset_top = 74.0056
+offset_right = 594.995
+offset_bottom = 165.006
+scale = Vector2(0.1, 0.1)
+theme_override_colors/font_color = Color(0.368627, 0.368627, 0.368627, 1)
+theme_override_fonts/font = ExtResource("2_phefl")
+theme_override_font_sizes/font_size = 100
+text = "stranger"
+script = ExtResource("3_hp3tk")
+
+[node name="SecretMessage2" type="Label" parent="."]
+offset_left = 19.0015
+offset_top = 74.0056
+offset_right = 681.001
+offset_bottom = 165.006
+scale = Vector2(0.1, 0.1)
+theme_override_colors/font_color = Color(0.368627, 0.368627, 0.368627, 1)
+theme_override_fonts/font = ExtResource("2_phefl")
+theme_override_font_sizes/font_size = 100
+text = "bear"
+script = ExtResource("3_hp3tk")
+
+[node name="CharacterSprite" type="Sprite2D" parent="."]
+position = Vector2(2.00012, 62.0046)
+rotation = -0.295943
+scale = Vector2(0.190494, 0.192133)
+texture = ExtResource("4_2o6hd")

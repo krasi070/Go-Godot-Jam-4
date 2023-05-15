@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://b1gj3lcoy5bx6"]
+
+[ext_resource type="Texture2D" uid="uid://cf1rjl5ek4whr" path="res://assets/sprites/effects/shadow.png" id="1_0c2bu"]
+[ext_resource type="FontFile" uid="uid://b52imn1wavve0" path="res://assets/fonts/bpdots.squares-bold.otf" id="2_umxm5"]
+[ext_resource type="Script" path="res://scenes/ui/secret_message.gd" id="3_d14cu"]
+[ext_resource type="Texture2D" uid="uid://dp0abofn40bj1" path="res://assets/sprites/miscellaneous/mushroom.png" id="4_q647t"]
+
+[node name="Mushroom" type="Node2D"]
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+self_modulate = Color(0.611765, 0.882353, 0, 1)
+position = Vector2(-1.52588e-05, 77.0058)
+scale = Vector2(0.65, 0.203)
+texture = ExtResource("1_0c2bu")
+
+[node name="SecretMessage" type="Label" parent="."]
+offset_left = -50.0038
+offset_top = 76.0057
+offset_right = 611.996
+offset_bottom = 167.006
+scale = Vector2(0.1, 0.1)
+theme_override_colors/font_color = Color(0.368627, 0.368627, 0.368627, 1)
+theme_override_fonts/font = ExtResource("2_umxm5")
+theme_override_font_sizes/font_size = 100
+text = "eat"
+script = ExtResource("3_d14cu")
+
+[node name="SecretMessage2" type="Label" parent="."]
+offset_left = 19.0015
+offset_top = 74.0056
+offset_right = 681.001
+offset_bottom = 165.006
+scale = Vector2(0.1, 0.1)
+theme_override_colors/font_color = Color(0.368627, 0.368627, 0.368627, 1)
+theme_override_fonts/font = ExtResource("2_umxm5")
+theme_override_font_sizes/font_size = 100
+text = "mushroom"
+script = ExtResource("3_d14cu")
+
+[node name="CharacterSprite" type="Sprite2D" parent="."]
+position = Vector2(4.00031, 58.0043)
+scale = Vector2(0.190494, 0.192133)
+texture = ExtResource("4_q647t")

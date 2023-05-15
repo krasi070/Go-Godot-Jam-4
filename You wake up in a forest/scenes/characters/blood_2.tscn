@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbrbp44tebl4i"]
+
+[ext_resource type="Texture2D" uid="uid://dtowikk4tgxc1" path="res://assets/sprites/effects/blood.png" id="1_tgua6"]
+[ext_resource type="FontFile" uid="uid://b52imn1wavve0" path="res://assets/fonts/bpdots.squares-bold.otf" id="2_40n3n"]
+[ext_resource type="Script" path="res://scenes/ui/secret_message.gd" id="3_h061q"]
+
+[node name="Blood2" type="Node2D"]
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+self_modulate = Color(0.670588, 0.0784314, 0, 1)
+position = Vector2(6.50536, 75.0058)
+scale = Vector2(0.522515, 0.203)
+texture = ExtResource("1_tgua6")
+flip_v = true
+
+[node name="SecretMessage" type="Label" parent="."]
+self_modulate = Color(1, 0.419608, 0.329412, 1)
+offset_left = -61.0
+offset_top = 69.0
+offset_right = 1679.0
+offset_bottom = 160.0
+scale = Vector2(0.1, 0.1)
+theme_override_colors/font_color = Color(0.368627, 0.368627, 0.368627, 1)
+theme_override_fonts/font = ExtResource("2_40n3n")
+theme_override_font_sizes/font_size = 100
+text = "the forest bends time"
+script = ExtResource("3_h061q")

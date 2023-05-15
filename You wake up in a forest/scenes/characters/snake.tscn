@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://qm3tecv24mp4"]
+
+[ext_resource type="Script" path="res://scenes/characters/snake.gd" id="1_2x8tu"]
+[ext_resource type="Texture2D" uid="uid://cf1rjl5ek4whr" path="res://assets/sprites/effects/shadow.png" id="1_dt7xm"]
+[ext_resource type="Texture2D" uid="uid://bxndkxpp21ikl" path="res://assets/sprites/effects/light.png" id="2_a7ysl"]
+[ext_resource type="Texture2D" uid="uid://spkn21f20ucj" path="res://assets/sprites/characters/snake.png" id="3_wx3bi"]
+[ext_resource type="FontFile" uid="uid://b52imn1wavve0" path="res://assets/fonts/bpdots.squares-bold.otf" id="4_m0g04"]
+[ext_resource type="Script" path="res://scenes/ui/secret_message.gd" id="5_ra66i"]
+
+[node name="Snake" type="Node2D"]
+script = ExtResource("1_2x8tu")
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+self_modulate = Color(0.611765, 0.882353, 0, 1)
+position = Vector2(-1.52588e-05, 77.0058)
+scale = Vector2(0.65, 0.203)
+texture = ExtResource("1_dt7xm")
+
+[node name="Flashlight" type="PointLight2D" parent="."]
+position = Vector2(30.0023, 32.0024)
+scale = Vector2(1.00007, 1.00007)
+color = Color(1, 0.952941, 0.819608, 1)
+energy = 0.75
+range_z_max = 10
+texture = ExtResource("2_a7ysl")
+texture_scale = 0.5
+
+[node name="SecretMessage" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 73.0
+offset_right = 677.999
+offset_bottom = 164.0
+scale = Vector2(0.1, 0.1)
+theme_override_colors/font_color = Color(0.368627, 0.368627, 0.368627, 1)
+theme_override_fonts/font = ExtResource("4_m0g04")
+theme_override_font_sizes/font_size = 100
+text = "cut"
+script = ExtResource("5_ra66i")
+
+[node name="CharacterSprite" type="Sprite2D" parent="."]
+position = Vector2(-1.47742, 53.8658)
+rotation = -0.0105543
+scale = Vector2(0.136154, 0.126992)
+texture = ExtResource("3_wx3bi")
+flip_v = true

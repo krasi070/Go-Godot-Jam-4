@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://dapyreudx1uaa"]
+
+[ext_resource type="Texture2D" uid="uid://cf1rjl5ek4whr" path="res://assets/sprites/effects/shadow.png" id="1_7mlx1"]
+[ext_resource type="FontFile" uid="uid://b52imn1wavve0" path="res://assets/fonts/bpdots.squares-bold.otf" id="2_v4i3a"]
+[ext_resource type="Script" path="res://scenes/ui/secret_message.gd" id="3_btiyh"]
+
+[node name="Blood3" type="Node2D"]
+scale = Vector2(1.00007, 1.00007)
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+self_modulate = Color(0.670588, 0.0784314, 0, 1)
+position = Vector2(0, 76.006)
+scale = Vector2(0.65, 0.203)
+texture = ExtResource("1_7mlx1")
+
+[node name="SecretMessage" type="Label" parent="."]
+self_modulate = Color(1, 0.419608, 0.329412, 1)
+offset_left = -90.0
+offset_top = 70.0
+offset_right = 1650.0
+offset_bottom = 252.0
+scale = Vector2(0.1, 0.1)
+theme_override_colors/font_color = Color(0.368627, 0.368627, 0.368627, 1)
+theme_override_fonts/font = ExtResource("2_v4i3a")
+theme_override_font_sizes/font_size = 100
+text = "escape the forest
+cut self"
+horizontal_alignment = 1
+script = ExtResource("3_btiyh")

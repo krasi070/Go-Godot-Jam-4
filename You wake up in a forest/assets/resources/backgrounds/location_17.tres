@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="LocationData" load_steps=3 format=3 uid="uid://6gxbp7b4uw8s"]
+
+[ext_resource type="Script" path="res://assets/resources/backgrounds/location_data.gd" id="1_bdac7"]
+[ext_resource type="Texture2D" uid="uid://b6kcoikklcd8a" path="res://assets/sprites/locations/location_17.jpeg" id="2_2by6t"]
+
+[resource]
+script = ExtResource("1_bdac7")
+texture = ExtResource("2_2by6t")
+modulate = Color(1, 1, 1, 1)
+position = Vector2(138, 111)
+scale = Vector2(0.5775, 0.5775)
+is_raining = true

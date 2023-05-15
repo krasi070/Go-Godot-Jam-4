@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://jp3xlynte2y"]
+
+[ext_resource type="FontFile" uid="uid://b52imn1wavve0" path="res://assets/fonts/bpdots.squares-bold.otf" id="1_j1t4p"]
+[ext_resource type="Script" path="res://scenes/ui/command_line.gd" id="2_q11qb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_frlss"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_le4ls"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qnimf"]
+
+[node name="CommandLine" type="LineEdit"]
+z_index = 11
+offset_left = 44.0
+offset_top = 85.0
+offset_right = 2044.0
+offset_bottom = 175.0
+scale = Vector2(0.1, 0.1)
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.996078, 0.737255, 0.721569, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/caret_color = Color(0.996078, 0.737255, 0.721569, 1)
+theme_override_constants/outline_size = 30
+theme_override_constants/caret_width = 10
+theme_override_fonts/font = ExtResource("1_j1t4p")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = SubResource("StyleBoxEmpty_frlss")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_le4ls")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_qnimf")
+alignment = 1
+max_length = 20
+context_menu_enabled = false
+virtual_keyboard_enabled = false
+shortcut_keys_enabled = false
+middle_mouse_paste_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+caret_blink = true
+caret_blink_interval = 0.5
+script = ExtResource("2_q11qb")
+regex_pattern = "([A-Za-z]+\\s?)*"
