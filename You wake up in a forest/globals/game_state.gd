@@ -192,7 +192,7 @@ func set_up_fox_transformation() -> void:
 	stranger_location = STRANGER_SPAWN_LOC_ON_ATE_MUSHROOM
 	if flags[Enums.Flag.SHOT_FOX]:
 		past_self_location = PAST_SELF_SPAWN_LOC_ON_ATE_MUSHROOM
-	else:
+	elif not player_items[Enums.Item.BULLET]:
 		bullet_location = BULLET_SPAWN_LOC_ON_ATE_MUSHROOM
 	is_flashlight_on = false
 
@@ -243,7 +243,7 @@ func reset_to_zero() -> void:
 	player_items = {
 		Enums.Item.HANDGUN: true,
 		Enums.Item.BULLET: true,
-		Enums.Item.HONEY: false,
+		Enums.Item.HONEY: true,
 		Enums.Item.KNIFE: false, 
 		Enums.Item.FLASHLIGHT: false,
 		Enums.Item.KEY: false,

@@ -4,6 +4,7 @@ extends State
 func on_enter() -> void:
 	_connect_signals()
 	GameState.player_can_act = true
+	obj.edge_areas.update_all_edge_areas()
 	obj.edge_areas.set_is_active_on_all_edges(true)
 
 

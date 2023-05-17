@@ -17,6 +17,8 @@ const EAT: String = "eat"
 const SWITCH: String = "switch"
 const FIGHT: String = "fight"
 const UNLOCK: String = "unlock"
+const HELP: String = "help"
+const PET: String = "pet"
 
 const BEAR: String = "bear"
 const STRANGER: String = "stranger"
@@ -47,7 +49,32 @@ const COMMAND_LIST: Dictionary = {
 	SWITCH: [],
 	FIGHT: [BEAR, FOX, STRANGER, SQUIRREL, SNAKE, MAN],
 	UNLOCK: [],
+	HELP: [],
+	PET: [SELF, BEAR, FOX, STRANGER, SQUIRREL, SNAKE, MAN],
 }
+
+const SECONDARY_WORDS: Dictionary = {
+	"go": HEAD,
+	"up": NORTH,
+	"right": EAST,
+	"down": SOUTH,
+	"left": WEST,
+	"grab": TAKE,
+	"pick": TAKE,
+	"pick up": TAKE,
+	"myself": SELF,
+	"help me": HELP,
+	"me": SELF,
+	"stab": CUT,
+	"use knife": CUT,
+	"use gun": SHOOT,
+	"unlock door": UNLOCK,
+	"use flashlight": SWITCH,
+}
+
+const IGNORABLE_SUBSTRINGS: Array = [
+	" the",
+]
 
 var headed_direction: Vector2
 
@@ -55,18 +82,19 @@ var headed_direction: Vector2
 func set_up_connections(command_line: LineEdit) -> void:
 	command_line.entered_command.connect(_on_command_line_entered_command)
 
-
-func is_command_valid(cmd: String) -> bool:
-	var cmd_args: PackedStringArray = cmd.split(" ", false)
-	if cmd_args.is_empty() or cmd_args.size() > 2:
-		return false
-	if not COMMAND_LIST.keys().has(cmd_args[0]):
-		return false
-	if cmd_args.size() == 2 and not COMMAND_LIST[cmd_args[0]].has(cmd_args[1]):
-		return false
-	if cmd_args.size() == 1 and not COMMAND_LIST[cmd_args[0]].is_empty():
-		return false
-	return true
+# Returns the empty string if it is not, and
+# the actual command if valid after secondary words are removed:
+func is_command_valid(cmd: String) -> String:
+	if _check_is_valid(cmd):
+		return cmd
+	cmd = _remove_ignorable_substrings(cmd)
+	cmd = _replace_secondary_words(cmd)
+	if _check_is_valid(cmd):
+		return cmd
+	cmd = _add_context_word(cmd)
+	if _check_is_valid(cmd):
+		return cmd
+	return ""
 
 
 func execute_command(cmd: String) -> void:
@@ -94,8 +122,58 @@ func execute_command(cmd: String) -> void:
 			_execute_fight_command(cmd_args[1])
 		WAKE:
 			_execute_wake_up_command()
+		HELP:
+			_execute_help_command()
+		PET:
+			_execute_pet_command(cmd_args[1])
 		_:
 			emit_signal("executed_action", Scenarios.invalid_command)
+
+
+func _check_is_valid(cmd: String) -> bool:
+	var cmd_args: PackedStringArray = cmd.split(" ", false)
+	if cmd_args.is_empty() or cmd_args.size() > 2:
+		return false
+	if not COMMAND_LIST.keys().has(cmd_args[0]):
+		return false
+	if cmd_args.size() == 2 and not COMMAND_LIST[cmd_args[0]].has(cmd_args[1]):
+		return false
+	if cmd_args.size() == 1 and not COMMAND_LIST[cmd_args[0]].is_empty():
+		return false
+	return true
+
+
+func _remove_ignorable_substrings(cmd: String) -> String:
+	for substr in IGNORABLE_SUBSTRINGS:
+		cmd = cmd.replace(substr, "")
+	return cmd
+
+
+func _replace_secondary_words(cmd: String) -> String:
+	for sec_word in SECONDARY_WORDS:
+		cmd = cmd.replace(sec_word, SECONDARY_WORDS[sec_word])
+	return cmd
+
+
+func _add_context_word(cmd: String) -> String:
+	match GameState.player_location:
+		GameState.bear_location:
+			cmd += " " + BEAR
+		GameState.fox_location:
+			cmd += " " + FOX
+		GameState.snake_location:
+			cmd += " " + SNAKE
+		GameState.squirrel_location:
+			cmd += " " + SQUIRREL
+		GameState.man_location:
+			cmd += " " + MAN
+		GameState.mushroom_location:
+			cmd += " " + MUSHROOM
+		GameState.honey_location:
+			cmd += " " + HONEY
+		GameState.stranger_location:
+			cmd += " " + STRANGER
+	return cmd
 
 
 func _execute_switch_command() -> void:
@@ -121,6 +199,10 @@ func _execute_unlock_command() -> void:
 	else:
 		entries = Scenarios.no_key
 	emit_signal("executed_action", entries)
+
+
+func _execute_help_command() -> void:
+	emit_signal("executed_action", Scenarios.help_called)
 
 
 func _execute_eat_command(target: String) -> void:
@@ -166,7 +248,10 @@ func _execute_give_command(target: String) -> void:
 		elif GameState.player_location == GameState.fox_location:
 			entries = Scenarios.give_to_fox
 		elif GameState.player_location == GameState.stranger_location:
-			entries = Scenarios.give_to_stranger
+			if GameState.player_items[Enums.Item.KNIFE]:
+				entries = Scenarios.give_to_stranger_with_knife
+			else:
+				entries = Scenarios.give_to_stranger
 		elif GameState.player_location == GameState.squirrel_location:
 			entries = Scenarios.give_to_squirrel
 		elif GameState.player_location == GameState.snake_location:
@@ -359,6 +444,45 @@ func _execute_fight_command(target: String) -> void:
 		emit_signal("executed_action", entries)
 
 
+func _execute_pet_command(target: String) -> void:
+	var entries: Array
+	match target:
+		BEAR:
+			if GameState.player_location == GameState.bear_location:
+				entries = Scenarios.pet_bear
+			else:
+				entries = Scenarios.target_not_present
+		FOX:
+			if GameState.player_location == GameState.fox_location:
+				entries = Scenarios.pet_fox
+			else:
+				entries = Scenarios.target_not_present
+		STRANGER:
+			if GameState.player_location == GameState.stranger_location:
+				entries = Scenarios.pet_stranger
+			else:
+				entries = Scenarios.target_not_present
+		SQUIRREL:
+			if GameState.player_location == GameState.squirrel_location:
+				entries = Scenarios.pet_squirrel
+			else:
+				entries = Scenarios.target_not_present
+		SNAKE:
+			if GameState.player_location == GameState.snake_location:
+				entries = Scenarios.pet_snake
+			else:
+				entries = Scenarios.target_not_present
+		MAN:
+			if GameState.player_location == GameState.man_location:
+				entries = Scenarios.pet_man
+			else:
+				entries = Scenarios.target_not_present
+		SELF:
+			entries = Scenarios.pet_self_human
+	if not entries.is_empty():
+		emit_signal("executed_action", entries)
+
+
 func _execute_wake_up_command() -> void:
 	if GameState.is_tutorial:
 		emit_signal("entered_first_command")
@@ -366,11 +490,15 @@ func _execute_wake_up_command() -> void:
 
 
 func _on_command_line_entered_command(cmd: String) -> void:
-	if is_command_valid(cmd):
-		if GameState.is_fox() and not cmd.begins_with(HEAD):
+	cmd = is_command_valid(cmd)
+	if not cmd.is_empty():
+		if GameState.is_fox() and \
+			not (cmd.begins_with(HEAD) or cmd.begins_with(WAKE)):
 			emit_signal("executed_action", Scenarios.fox_cannot_do)
 		else:
 			execute_command(cmd)
+	elif GameState.is_tutorial:
+		return
 	else:
 		emit_signal("executed_action", Scenarios.invalid_command)
 		#emit_signal("entered_invalid_command")

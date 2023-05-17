@@ -118,7 +118,6 @@ var cut_with_no_knife: Array = [
 var shoot_self_in_dream: Array = [
 	"You shot yourself.",
 	"Thankfully, this is just a dream.",
-	Constants.PLAY_GUNSHOT,
 	Constants.GAME_OVER,
 ]
 
@@ -129,7 +128,6 @@ var cut_self_in_dream: Array = [
 ]
 
 var shoot_self_in_bedroom: Array = [
-	Constants.PLAY_GUNSHOT,
 	Constants.END,
 ]
 
@@ -142,7 +140,6 @@ var cut_self_in_bedroom: Array = [
 var shoot_bear: Array = [
 	"You " + col("shoot") + " the " + col("bear") + " and hit it.",
 	"That only made it angrier.",
-	Constants.PLAY_GUNSHOT,
 	Constants.LOST_BULLET,
 	Constants.GAME_OVER,
 ]
@@ -174,7 +171,6 @@ var give_to_bear: Array = [
 
 var shoot_fox: Array = [
 	"You shot the " + col("fox") + ". It's dead.",
-	Constants.PLAY_GUNSHOT,
 	Constants.LOST_BULLET,
 	Constants.FOX_DIES,
 ]
@@ -207,23 +203,22 @@ var shoot_stranger: Array = [
 	"You shot the " + col("stranger") + " in the head.",
 	"You go to make sure he is dead.",
 	"You find a knife and take it.",
-	Constants.PLAY_GUNSHOT,
 	Constants.LOST_BULLET,
 	Constants.GOT_KNIFE,
-	Constants.STRANGER_DIES,
+	Constants.STRANGER_DISAPPEARS,
 ]
 
 var fight_stranger: Array = [
 	"You attack the " + col("stranger") + ".",
 	"You kill him with your bare hands.",
 	Constants.GOT_KNIFE,
-	Constants.STRANGER_DIES,
+	Constants.STRANGER_DISAPPEARS,
 ]
 
 var cut_stranger: Array = [
 	"You attack the " + col("stranger") + " with his knife.",
 	"You kill him.",
-	Constants.STRANGER_DIES,
+	Constants.STRANGER_DISAPPEARS,
 ]
 
 var head_with_stranger: Array = [
@@ -233,17 +228,24 @@ var head_with_stranger: Array = [
 
 var give_to_stranger: Array = [
 	"The " + col("stranger") + " thanks you.",
-	"He gives you a knife in return.",
+	"He gives you a knife in return\nand leaves.",
 	Constants.STRANGER_MOVES,
 	Constants.LOST_HONEY,
 	Constants.GOT_KNIFE,
+]
+
+var give_to_stranger_with_knife: Array = [
+	"The " + col("stranger") + " thanks you.",
+	"He hands you a knife\nbut sees you have the same one.",
+	"He decides to keep his knife\nand leaves.",
+	Constants.STRANGER_MOVES,
+	Constants.LOST_HONEY,
 ]
 
 var shoot_snake: Array = [
 	"You " + col("shoot") + " the " + col("snake") + ".",
 	"You missed.",
 	"The " + col("snake") + " takes advantage of that.",
-	Constants.PLAY_GUNSHOT,
 	Constants.LOST_BULLET,
 	Constants.GAME_OVER,
 ]
@@ -285,7 +287,6 @@ var give_to_snake: Array = [
 var shoot_squirrel: Array = [
 	"You shot and hit the " + col("squirrel") + ".",
 	"That was only possile because\nit trusted you.",
-	Constants.PLAY_GUNSHOT,
 	Constants.LOST_BULLET,
 	Constants.SQUIRREL_DISAPPEARS,
 ]
@@ -315,7 +316,6 @@ var give_to_squirrel: Array = [
 
 var shoot_man: Array = [
 	"Did you really think that\nwould work on me?",
-	Constants.PLAY_GUNSHOT,
 	Constants.LOST_BULLET,
 	Constants.GAME_OVER,
 ]
@@ -337,7 +337,6 @@ var invalid_command: Array = [
 
 var shoot_the_unknown: Array = [
 	"You cannot " + col("shoot") + " that.",
-	Constants.PLAY_GUNSHOT,
 	Constants.DO_NOTHING,
 ]
 
@@ -349,6 +348,53 @@ var cut_the_unknown: Array = [
 var target_not_present: Array = [
 	"Your target is not here.",
 	Constants.DO_NOTHING,
+]
+
+var help_called: Array = [
+	"You called for " + col("help") + ".",
+	"But no one came.",
+	Constants.DO_NOTHING,
+]
+
+var pet_self_human: Array = [
+	"You " + col("pet") + " your" + col("self") + ".",
+	"You feel a bit better.",
+	Constants.DO_NOTHING,
+]
+
+var pet_bear: Array = [
+	"You try to " + col("pet") + " the " + col("bear") + ".",
+	"It tears your arm off.",
+	Constants.GAME_OVER,
+]
+
+var pet_fox: Array = [
+	"You try to " + col("pet") + " the " + col("fox") + ".",
+	"It notices you and runs away\nbefore you manager to do it.",
+	Constants.GAME_OVER,
+]
+
+var pet_stranger: Array = [
+	"You " + col("pet") + " the " + col("stranger") + ".",
+	"He gets creeped out and runs away.",
+	Constants.STRANGER_DISAPPEARS,
+]
+
+var pet_squirrel: Array = [
+	"You " + col("pet") + " the " + col("squirrel") + ".",
+	"It appreciates it.",
+	Constants.DO_NOTHING,
+]
+
+var pet_snake: Array = [
+	"You try to " + col("pet") + " the " + col("snake") + ".",
+	"It bites your hand.",
+	"You have a bad feeling about this.",
+	Constants.GAME_OVER,
+]
+
+var pet_man: Array = [
+	"I like that.",
 ]
 
 # Special events
@@ -405,7 +451,6 @@ var squirrel_gave_key: Array = [
 var met_bear: Array = [
 	"A " + col("bear") + " is towering over you.",
 	col("Shoot") + "ing and " + col("fight") + "ing is of no use.",
-	"Give up.",
 	Constants.DO_NOTHING,
 ]
 

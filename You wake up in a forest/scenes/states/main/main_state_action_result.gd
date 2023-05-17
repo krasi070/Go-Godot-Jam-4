@@ -57,7 +57,7 @@ func _execute_action(action: String) -> void:
 		Constants.SQUIRREL_DISAPPEARS:
 			_remove_event()
 			GameState.squirrel_location = GameState.OUTSIDE_BOUNDS
-		Constants.STRANGER_DIES:
+		Constants.STRANGER_DISAPPEARS:
 			_remove_event()
 			GameState.stranger_location = GameState.OUTSIDE_BOUNDS
 			GameState.flags[Enums.Flag.KILLED_STRANGER] = true
@@ -80,8 +80,8 @@ func _execute_action(action: String) -> void:
 			GameState.squirrel_location = GameState.KEY_SPAWN_LOC
 		Constants.SNIFFED_BULLET:
 			GameState.bullet_location = GameState.OUTSIDE_BOUNDS
-#		Constants.PLAY_GUNSHOT:
-#			AudioController.play_sfx(AudioController.GUNSHOT_SOUND)
+		#Constants.PLAY_GUNSHOT:
+			#AudioController.play_sfx(AudioController.GUNSHOT_SOUND)
 		_:
 			print("Unknown action! ", action)
 
