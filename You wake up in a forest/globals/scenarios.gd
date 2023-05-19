@@ -335,6 +335,11 @@ var invalid_command: Array = [
 	Constants.DO_NOTHING,
 ]
 
+var try_to_remember: Array = [
+	"Try to " + col("remember") + " what you know.",
+	Constants.DO_NOTHING,
+]
+
 var shoot_the_unknown: Array = [
 	"You cannot " + col("shoot") + " that.",
 	Constants.DO_NOTHING,

@@ -12,6 +12,7 @@ func on_enter() -> void:
 		obj.show()
 		obj.visible_characters = 0
 		var entry: String = obj.entry_queue.pop_front()
+		GameState.set_possible_encountered_keywords(entry)
 		if not obj.entry_queue.is_empty() or obj.erase_on_finished:
 			entry += obj.TICK_CHARACTER
 		obj.text = obj.TEXT_FORMAT % entry

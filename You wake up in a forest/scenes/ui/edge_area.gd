@@ -39,7 +39,6 @@ func update_hint_text() -> void:
 	var next_hint_text: String = \
 		(Constants.COMMAND_LINE_COLOR_TEXT_FORMAT + "\n") % DIRECTION_STR[direction]
 	var next_loc: Vector2 = GameState.player_location + direction
-	print("update ", next_loc, " bear ", GameState.bear_location)
 	if not GameState.map.has(next_loc) or GameState.map[next_loc].is_empty():
 		next_hint_text += DEAD_END_TEXT
 	elif next_loc == GameState.bear_location:

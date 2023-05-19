@@ -9,7 +9,12 @@ const ITEM_TEXTURES: Dictionary = {
 	Enums.Item.KEY: preload("res://assets/sprites/items/key.png"),
 }
 
-const COMMAND_LINE_COLOR_TEXT_FORMAT: String = "[color=#febcb8]%s[/color]"
+const START_COMMAND_LINE_COLOR_TAG: String = "[color=#febcb8]"
+const END_COMMAND_LINE_COLOR_TAG: String = "[/color]"
+const COMMAND_LINE_COLOR_TEXT_FORMAT: String = \
+	START_COMMAND_LINE_COLOR_TAG + "%s" + END_COMMAND_LINE_COLOR_TAG
+const KEYWORD_REGEX: String = "\\[color=#febcb8\\]([A-Za-z]+\\s*)+\\[\\/color\\]"
+const TEXTBOX_LETTER_LIMIT_PER_LINE: int = 30
 
 const GAME_OVER: String = "$game over"
 const END: String = "$end"

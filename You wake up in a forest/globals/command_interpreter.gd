@@ -19,6 +19,8 @@ const FIGHT: String = "fight"
 const UNLOCK: String = "unlock"
 const HELP: String = "help"
 const PET: String = "pet"
+const HELLO: String = "hello"
+const REMEMBER: String = "remember"
 
 const BEAR: String = "bear"
 const STRANGER: String = "stranger"
@@ -42,7 +44,6 @@ const COMMAND_LIST: Dictionary = {
 	CUT: [SELF, BEAR, FOX, STRANGER, SQUIRREL, SNAKE, MAN],
 	HEAD: [NORTH, EAST, SOUTH, WEST],
 	PAUSE: [],
-	VOLUME: [],
 	TAKE: [HONEY],
 	GIVE: [HONEY],
 	EAT: [MUSHROOM, HONEY],
@@ -51,6 +52,7 @@ const COMMAND_LIST: Dictionary = {
 	UNLOCK: [],
 	HELP: [],
 	PET: [SELF, BEAR, FOX, STRANGER, SQUIRREL, SNAKE, MAN],
+	REMEMBER: [],
 }
 
 const SECONDARY_WORDS: Dictionary = {
@@ -70,6 +72,12 @@ const SECONDARY_WORDS: Dictionary = {
 	"use gun": SHOOT,
 	"unlock door": UNLOCK,
 	"use flashlight": SWITCH,
+	"hi": HELLO,
+	"say hello": HELLO,
+	"say hi": HELLO,
+	"remind": REMEMBER,
+	"recall": REMEMBER,
+	"use honey": GIVE + " " + HONEY,
 }
 
 const IGNORABLE_SUBSTRINGS: Array = [
@@ -126,6 +134,8 @@ func execute_command(cmd: String) -> void:
 			_execute_help_command()
 		PET:
 			_execute_pet_command(cmd_args[1])
+		REMEMBER:
+			_execute_remember_command()
 		_:
 			emit_signal("executed_action", Scenarios.invalid_command)
 
@@ -174,6 +184,73 @@ func _add_context_word(cmd: String) -> String:
 		GameState.stranger_location:
 			cmd += " " + STRANGER
 	return cmd
+
+
+func _execute_remember_command() -> void:
+	var entries: Array = []
+	var verbs_start: String = "You " + Scenarios.col("remember") + " the verbs you've\nencountered so far."
+	entries.append(verbs_start)
+	var verb_entries: Array = _construct_keyword_entries(GameState.encountered_keywords.verbs)
+	entries.append_array(verb_entries)
+	var targets_start: String = "You " + Scenarios.col("remember") + " the targets you've\nencountered so far."
+	entries.append(targets_start)
+	var target_entries: Array = _construct_keyword_entries(GameState.encountered_keywords.targets)
+	entries.append_array(target_entries)
+	entries.append(Constants.DO_NOTHING)
+	emit_signal("executed_action", entries)
+
+
+func _construct_keyword_entries(keywords: Dictionary) -> Array:
+	var entries: Array = []
+	var separator: String = ", "
+	var continue_sep: String = ", ..."
+	var entry_end_symbol: String = "$$"
+	var str_line_one: String = ""
+	var str_line_two: String = ""
+	var whole_str: String = ""
+	for word in keywords.keys():
+		var word_len: int = len(keywords[word].text)
+		if keywords[word].encountered:
+			if not str_line_one.ends_with("\n") and \
+				len(str_line_one) + word_len + len(separator) <= Constants.TEXTBOX_LETTER_LIMIT_PER_LINE:
+				str_line_one += keywords[word].text + separator
+			elif len(str_line_two) + word_len + len(continue_sep) <= Constants.TEXTBOX_LETTER_LIMIT_PER_LINE:
+				if not str_line_one.ends_with("\n"):
+					str_line_one = str_line_one.trim_suffix(" ") + "\n"
+				str_line_two += keywords[word].text + separator
+			else:
+				str_line_two = str_line_two.trim_suffix(separator) + continue_sep
+				whole_str += str_line_one + str_line_two + entry_end_symbol
+				str_line_one = keywords[word].text + separator
+				str_line_two = ""
+	if not str_line_two.is_empty():
+		str_line_two = str_line_two.trim_suffix(separator) + continue_sep
+		whole_str += str_line_one + str_line_two
+	elif not str_line_one.is_empty():
+		str_line_one = str_line_one.trim_suffix(separator) + continue_sep
+		whole_str += str_line_one
+	whole_str = whole_str.trim_suffix(entry_end_symbol)
+	whole_str = whole_str.trim_suffix(continue_sep) + "."
+	whole_str = _capitalize_first_letter(whole_str)
+	for word in keywords.keys():
+		if keywords[word].encountered:
+			var to_replace: String = keywords[word].text
+			if whole_str.begins_with(_capitalize_first_letter(keywords[word].text)):
+				to_replace = _capitalize_first_letter(keywords[word].text)
+			whole_str = whole_str.replace(
+				to_replace, 
+				Constants.COMMAND_LINE_COLOR_TEXT_FORMAT % to_replace)
+	entries.append_array(whole_str.split(entry_end_symbol, false))
+	return entries
+
+
+func _capitalize_first_letter(_str: String) -> String:
+	for i in range(97, 124):
+		if _str[0] == String.chr(i):
+			_str = _str.trim_prefix(_str[0])
+			_str = String.chr(i - 32) + _str
+			break
+	return _str
 
 
 func _execute_switch_command() -> void:
@@ -492,6 +569,8 @@ func _execute_wake_up_command() -> void:
 func _on_command_line_entered_command(cmd: String) -> void:
 	cmd = is_command_valid(cmd)
 	if not cmd.is_empty():
+		GameState.inputted_invalid_command = 0
+		GameState.set_encountered_keywords(cmd.split(" ", false))
 		if GameState.is_fox() and \
 			not (cmd.begins_with(HEAD) or cmd.begins_with(WAKE)):
 			emit_signal("executed_action", Scenarios.fox_cannot_do)
@@ -500,5 +579,9 @@ func _on_command_line_entered_command(cmd: String) -> void:
 	elif GameState.is_tutorial:
 		return
 	else:
-		emit_signal("executed_action", Scenarios.invalid_command)
+		GameState.inputted_invalid_command += 1
+		if GameState.inputted_invalid_command > 2:
+			emit_signal("executed_action", Scenarios.try_to_remember)
+		else:
+			emit_signal("executed_action", Scenarios.invalid_command)
 		#emit_signal("entered_invalid_command")

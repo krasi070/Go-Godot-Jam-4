@@ -63,6 +63,9 @@ var bullet_location: Vector2
 
 var flags: Dictionary
 
+var encountered_keywords: Dictionary
+var inputted_invalid_command: int
+
 var _ignore_bear_update: bool = false
 var _times_reached_bedroom: int = 0
 
@@ -95,76 +98,30 @@ func set_player_location(new_loc: Vector2) -> void:
 	_move_bear_with_player(new_loc)
 	player_location = new_loc
 	emit_signal("player_moved")
-	#_ignore_bear_update = false
 	_check_bear_signals()
 	_check_squirrel_signals()
 	_check_fox_signals()
 	_check_for_bedroom_signals()
 
 
-func _move_bear_with_player(new_loc: Vector2) -> void:
-	if is_squirrel_present() and \
-		(player_location == squirrel_location or player_location == KEY_SPAWN_LOC):
+func set_possible_encountered_keywords(line: String) -> void:
+	var regex: RegEx = RegEx.new()
+	regex.compile(Constants.KEYWORD_REGEX)
+	for regex_match in regex.search_all(line):
+		if not is_instance_valid(regex_match):
 			return
-	if (player_location.x >= 0 and player_location.x < 5) and \
-		(player_location.y >= 0 and player_location.y < 5) and \
-		bear_location != new_loc and \
-		not _ignore_bear_update:
-		bear_location = player_location
-	_ignore_bear_update = false
+		var keywords: String = regex_match.get_string().trim_suffix(" ").to_lower()
+		keywords = keywords.replace(Constants.START_COMMAND_LINE_COLOR_TAG, "")
+		keywords = keywords.replace(Constants.END_COMMAND_LINE_COLOR_TAG, "")
+		set_encountered_keywords(keywords.split(" ", false))
 
 
-func _check_bear_signals() -> void:
-	if player_location == bear_location and\
-		not flags[Enums.Flag.HAS_MET_BEAR]:
-		flags[Enums.Flag.HAS_MET_BEAR] = true
-		emit_signal("met_bear", Scenarios.met_bear)
-
-
-func _check_squirrel_signals() -> void:
-	if not is_squirrel_present():
-		return
-	if player_location == squirrel_location and \
-		player_location == KEY_SPAWN_LOC and \
-		player_location != bear_location:
-		emit_signal("squirrel_gave_key", Scenarios.squirrel_gave_key)
-	elif player_location == squirrel_location and \
-		player_location != bear_location:
-		emit_signal("met_squirrel", Scenarios.met_squirrel)
-
-
-func _check_fox_signals() -> void:
-	if not is_fox():
-		return
-	if player_location == bear_location:
-		emit_signal("fox_met_bear", Scenarios.fox_met_bear)
-	elif player_location == stranger_location:
-		var entries: Array = Scenarios.fox_met_stranger
-		if flags[Enums.Flag.KILLED_STRANGER]:
-			entries = Scenarios.fox_met_stranger_after_death
-		emit_signal("fox_met_stranger", entries)
-	elif player_location == past_self_location:
-		emit_signal("fox_met_self", Scenarios.fox_met_self)
-	elif player_location == bullet_location:
-		emit_signal("fox_found_bullet", Scenarios.fox_found_bullet)
-
-
-func _check_for_bedroom_signals() -> void:
-	if player_location != man_location:
-		return
-	_times_reached_bedroom += 1
-	if _times_reached_bedroom == 1:
-		emit_signal(
-			"entered_bedroom_first_time", 
-			Scenarios.entered_bedroom_first_time)
-	elif _times_reached_bedroom == 2:
-		emit_signal(
-			"entered_bedroom_second_time", 
-			Scenarios.entered_bedroom_second_time)
-	elif _times_reached_bedroom >= 3:
-		emit_signal(
-			"entered_bedroom_third_time", 
-			Scenarios.entered_bedroom_third_time)
+func set_encountered_keywords(keywords: PackedStringArray) -> void:
+	for keyword in keywords:
+		if encountered_keywords.verbs.has(keyword):
+			encountered_keywords.verbs[keyword].encountered = true
+		if encountered_keywords.targets.has(keyword):
+			encountered_keywords.targets[keyword].encountered = true
 
 
 func is_in_dream() -> bool:
@@ -230,6 +187,7 @@ func reset_after_death() -> void:
 	player_can_act = false
 	is_tutorial = false
 	is_flashlight_on = false
+	inputted_invalid_command = 0
 	if player_items[Enums.Item.KEY]:
 		map[Vector2(2, 2)].visited += 1
 	if player_items[Enums.Item.FLASHLIGHT]:
@@ -243,7 +201,7 @@ func reset_to_zero() -> void:
 	player_items = {
 		Enums.Item.HANDGUN: true,
 		Enums.Item.BULLET: true,
-		Enums.Item.HONEY: true,
+		Enums.Item.HONEY: false,
 		Enums.Item.KNIFE: false, 
 		Enums.Item.FLASHLIGHT: false,
 		Enums.Item.KEY: false,
@@ -256,6 +214,14 @@ func reset_to_zero() -> void:
 		Enums.Flag.HAS_MET_BEAR: false,
 	}
 	_init_map()
+	_init_encountered_keywords()
+	encountered_keywords.verbs[CommandInterpreter.WAKE].encountered = true
+	encountered_keywords.verbs[CommandInterpreter.HEAD].encountered = true
+	encountered_keywords.verbs[CommandInterpreter.SHOOT].encountered = true
+	encountered_keywords.targets[CommandInterpreter.EAST].encountered = true
+	encountered_keywords.targets[CommandInterpreter.NORTH].encountered = true
+	encountered_keywords.targets[CommandInterpreter.WEST].encountered = true
+	encountered_keywords.targets[CommandInterpreter.SOUTH].encountered = true
 	_ignore_bear_update = true
 	player_location = Vector2(-1, -1)
 	bear_location = Vector2(0, 2)
@@ -272,9 +238,75 @@ func reset_to_zero() -> void:
 	squirrel_location = OUTSIDE_BOUNDS
 	past_self_location = OUTSIDE_BOUNDS
 	bullet_location = OUTSIDE_BOUNDS
+	inputted_invalid_command = 0
 	player_can_act = false
 	is_tutorial = true
 	is_flashlight_on = false
+
+
+func _move_bear_with_player(new_loc: Vector2) -> void:
+	if is_squirrel_present() and \
+		(player_location == squirrel_location or player_location == KEY_SPAWN_LOC):
+			return
+	if (player_location.x >= 0 and player_location.x < 5) and \
+		(player_location.y >= 0 and player_location.y < 5) and \
+		bear_location != new_loc and \
+		not _ignore_bear_update:
+		bear_location = player_location
+	_ignore_bear_update = false
+
+
+func _check_bear_signals() -> void:
+	if player_location == bear_location and\
+		not flags[Enums.Flag.HAS_MET_BEAR]:
+		flags[Enums.Flag.HAS_MET_BEAR] = true
+		emit_signal("met_bear", Scenarios.met_bear)
+
+
+func _check_squirrel_signals() -> void:
+	if not is_squirrel_present():
+		return
+	if player_location == squirrel_location and \
+		player_location == KEY_SPAWN_LOC and \
+		player_location != bear_location:
+		emit_signal("squirrel_gave_key", Scenarios.squirrel_gave_key)
+	elif player_location == squirrel_location and \
+		player_location != bear_location:
+		emit_signal("met_squirrel", Scenarios.met_squirrel)
+
+
+func _check_fox_signals() -> void:
+	if not is_fox():
+		return
+	if player_location == bear_location:
+		emit_signal("fox_met_bear", Scenarios.fox_met_bear)
+	elif player_location == stranger_location:
+		var entries: Array = Scenarios.fox_met_stranger
+		if flags[Enums.Flag.KILLED_STRANGER]:
+			entries = Scenarios.fox_met_stranger_after_death
+		emit_signal("fox_met_stranger", entries)
+	elif player_location == past_self_location:
+		emit_signal("fox_met_self", Scenarios.fox_met_self)
+	elif player_location == bullet_location:
+		emit_signal("fox_found_bullet", Scenarios.fox_found_bullet)
+
+
+func _check_for_bedroom_signals() -> void:
+	if player_location != man_location:
+		return
+	_times_reached_bedroom += 1
+	if _times_reached_bedroom == 1:
+		emit_signal(
+			"entered_bedroom_first_time", 
+			Scenarios.entered_bedroom_first_time)
+	elif _times_reached_bedroom == 2:
+		emit_signal(
+			"entered_bedroom_second_time", 
+			Scenarios.entered_bedroom_second_time)
+	elif _times_reached_bedroom >= 3:
+		emit_signal(
+			"entered_bedroom_third_time", 
+			Scenarios.entered_bedroom_third_time)
 
 
 func _init_map() -> void:
@@ -424,4 +456,121 @@ func _init_map() -> void:
 			"visited": 0,
 		},
 		Vector2(4, 4): {},
+	}
+
+
+func _init_encountered_keywords() -> void:
+	encountered_keywords = {
+		"verbs": {
+			CommandInterpreter.HEAD: {
+				"text": "head _",
+				"encountered": false,
+			},
+			CommandInterpreter.SHOOT: {
+				"text": "shoot _",
+				"encountered": false,
+			},
+			CommandInterpreter.FIGHT: {
+				"text": "fight _",
+				"encountered": false,
+			},
+			CommandInterpreter.CUT: {
+				"text": "cut _",
+				"encountered": false,
+			},
+			CommandInterpreter.SWITCH: {
+				"text": "switch",
+				"encountered": false,
+			},
+			CommandInterpreter.UNLOCK: {
+				"text": "unlock",
+				"encountered": false,
+			},
+			CommandInterpreter.TAKE: {
+				"text": "take _",
+				"encountered": false,
+			},
+			CommandInterpreter.GIVE: {
+				"text": "give _",
+				"encountered": false,
+			},
+			CommandInterpreter.EAT: {
+				"text": "eat _",
+				"encountered": false,
+			},
+			CommandInterpreter.WAKE: {
+				"text": "wake up",
+				"encountered": false,
+			},
+			CommandInterpreter.PAUSE: {
+				"text": "pause",
+				"encountered": false,
+			},
+			CommandInterpreter.PET: {
+				"text": "pet _",
+				"encountered": false,
+			},
+			CommandInterpreter.HELP: {
+				"text": "help",
+				"encountered": false,
+			},
+			CommandInterpreter.HELLO: {
+				"text": "hello",
+				"encountered": false,
+			},
+		},
+		"targets": {
+			CommandInterpreter.SELF: {
+				"text": "self",
+				"encountered": false,
+			},
+			CommandInterpreter.FOX: {
+				"text": "fox",
+				"encountered": false,
+			},
+			CommandInterpreter.BEAR: {
+				"text": "bear",
+				"encountered": false,
+			},
+			CommandInterpreter.STRANGER: {
+				"text": "stranger",
+				"encountered": false,
+			},
+			CommandInterpreter.SNAKE: {
+				"text": "snake",
+				"encountered": false,
+			},
+			CommandInterpreter.SQUIRREL: {
+				"text": "squirrel",
+				"encountered": false,
+			},
+			CommandInterpreter.MAN: {
+				"text": "man",
+				"encountered": false,
+			},
+			CommandInterpreter.HONEY: {
+				"text": "honey",
+				"encountered": false,
+			},
+			CommandInterpreter.MUSHROOM: {
+				"text": "mushroom",
+				"encountered": false,
+			},
+			CommandInterpreter.NORTH: {
+				"text": "north",
+				"encountered": false,
+			},
+			CommandInterpreter.SOUTH: {
+				"text": "south",
+				"encountered": false,
+			},
+			CommandInterpreter.EAST: {
+				"text": "east",
+				"encountered": false,
+			},
+			CommandInterpreter.WEST: {
+				"text": "west",
+				"encountered": false,
+			},
+		},
 	}

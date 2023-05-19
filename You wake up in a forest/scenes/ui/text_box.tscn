@@ -21,7 +21,7 @@ theme_override_constants/outline_size = 35
 theme_override_fonts/normal_font = ExtResource("1_1x4cu")
 theme_override_font_sizes/normal_font_size = 100
 bbcode_enabled = true
-text = "[center]A jar of honey is lying on the ground.
+text = "[center]Bear, stranger, fox, snake, 
 when you see [/center][shake rate=8.0 level=60]>[/shake]"
 fit_content = true
 script = ExtResource("2_ys0wy")

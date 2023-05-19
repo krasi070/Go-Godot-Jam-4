@@ -27,14 +27,18 @@ func _execute_action(action: String) -> void:
 			fsm.transition_to_state(fsm.states.End)
 		Constants.GOT_KNIFE:
 			GameState.set_item(Enums.Item.KNIFE, true)
+			GameState.encountered_keywords.verbs[CommandInterpreter.CUT].encountered = true
 		Constants.GOT_FLASHLIGHT:
 			GameState.set_item(Enums.Item.FLASHLIGHT, true)
+			GameState.encountered_keywords.verbs[CommandInterpreter.SWITCH].encountered = true
 		Constants.GOT_HONEY:
 			_remove_event()
 			GameState.honey_location = GameState.OUTSIDE_BOUNDS
 			GameState.set_item(Enums.Item.HONEY, true)
+			GameState.encountered_keywords.targets[CommandInterpreter.HONEY].encountered = true
 		Constants.GOT_KEY:
 			GameState.set_item(Enums.Item.KEY, true)
+			GameState.encountered_keywords.verbs[CommandInterpreter.UNLOCK].encountered = true
 		Constants.GOT_BULLET:
 			GameState.set_item(Enums.Item.BULLET, true)
 		Constants.LOST_BULLET:
