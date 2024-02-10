@@ -1,9 +1,7 @@
-[gd_scene load_steps=25 format=3 uid="uid://b2pueyi7ftasw"]
+[gd_scene load_steps=23 format=3 uid="uid://b2pueyi7ftasw"]
 
-[ext_resource type="Shader" path="res://assets/shaders/palette_filter.gdshader" id="1_2gefx"]
 [ext_resource type="PackedScene" uid="uid://c2xq7itf6iudl" path="res://scenes/background.tscn" id="1_ucy6m"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_y7v27"]
-[ext_resource type="Texture2D" uid="uid://dfraikolh42y" path="res://assets/sprites/palette.png" id="2_7cykk"]
 [ext_resource type="PackedScene" uid="uid://bhq0uci65ag61" path="res://scenes/flashlight.tscn" id="2_26mon"]
 [ext_resource type="PackedScene" uid="uid://cak3afmm7dpnq" path="res://scenes/ui/edge_areas.tscn" id="3_0aqcl"]
 [ext_resource type="Texture2D" uid="uid://d3hxgl65h1ku5" path="res://assets/sprites/effects/rain_drop.png" id="3_pq85s"]
@@ -15,6 +13,7 @@
 [ext_resource type="Script" path="res://scenes/ui/items_container.gd" id="9_eeo41"]
 [ext_resource type="Texture2D" uid="uid://dcuyxoffu1vi5" path="res://assets/sprites/items/key.png" id="9_vk4d5"]
 [ext_resource type="PackedScene" uid="uid://bv6e2p2bqkfxd" path="res://scenes/ui/text_box.tscn" id="15_lriqr"]
+[ext_resource type="Material" uid="uid://c6rs75savk3v5" path="res://assets/shaders/palette_filter_res.tres" id="16_wulay"]
 [ext_resource type="PackedScene" uid="uid://dx13ity4yjnge" path="res://scenes/transition_fade.tscn" id="17_h6ap2"]
 [ext_resource type="PackedScene" uid="uid://jp3xlynte2y" path="res://scenes/ui/command_line.tscn" id="17_ngbsj"]
 [ext_resource type="Script" path="res://scenes/states/main/main_state_story.gd" id="22_2uxfa"]
@@ -23,11 +22,6 @@
 [ext_resource type="Script" path="res://scenes/states/main/main_state_action.gd" id="23_rh6n1"]
 [ext_resource type="Script" path="res://scenes/states/main/main_state_end.gd" id="24_befxf"]
 [ext_resource type="Script" path="res://scenes/states/main/main_state_death.gd" id="25_fkmdw"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_58tfh"]
-shader = ExtResource("1_2gefx")
-shader_parameter/palette_size = 9
-shader_parameter/palette = ExtResource("2_7cykk")
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_y7v27")
@@ -133,12 +127,13 @@ metadata/_edit_lock_ = true
 
 [node name="PaletteFilter" type="ColorRect" parent="."]
 z_index = 1000
-material = SubResource("ShaderMaterial_58tfh")
+material = ExtResource("16_wulay")
 offset_left = -20.0
 offset_top = -20.0
 offset_right = 308.0
 offset_bottom = 236.0
 mouse_filter = 2
+color = Color(0.996094, 0.996094, 0.996094, 1)
 metadata/_edit_lock_ = true
 
 [node name="States" type="Node" parent="."]

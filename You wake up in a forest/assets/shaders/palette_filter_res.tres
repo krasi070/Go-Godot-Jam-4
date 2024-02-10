@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://c6rs75savk3v5"]
+
+[ext_resource type="Shader" path="res://assets/shaders/palette_filter.gdshader" id="1_li53y"]
+[ext_resource type="Texture2D" uid="uid://7qut12fb2psh" path="res://assets/sprites/palette.png" id="2_q2t6v"]
+
+[resource]
+shader = ExtResource("1_li53y")
+shader_parameter/palette_size = 9
+shader_parameter/palette = ExtResource("2_q2t6v")

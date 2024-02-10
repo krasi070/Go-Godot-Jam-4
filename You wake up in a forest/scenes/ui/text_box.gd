@@ -4,8 +4,8 @@ signal finished_entries
 signal new_entries_queued
 signal received_action_entries(entries)
 
-#const CHAR_READ_RATE: float = 0.03
-const CHAR_READ_RATE: float = 0.0
+const CHAR_READ_RATE: float = 0.03
+#const CHAR_READ_RATE: float = 0.0
 const TICK_CHARACTER: String = "[shake rate=8.0 level=60]>[/shake]"
 const TEXT_FORMAT: String = "[center]%s[/center]"
 
