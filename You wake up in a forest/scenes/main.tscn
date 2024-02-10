@@ -33,14 +33,12 @@ position = Vector2(144, 108)
 scale = Vector2(0.999925, 0.999925)
 
 [node name="EdgeAreas" parent="." instance=ExtResource("3_0aqcl")]
-visible = false
 
 [node name="Flashlight" parent="." instance=ExtResource("2_26mon")]
 position = Vector2(90, 173)
 metadata/_edit_lock_ = true
 
 [node name="RainParticles" type="CPUParticles2D" parent="."]
-visible = false
 position = Vector2(200, -80)
 amount = 800
 lifetime = 0.8
@@ -66,33 +64,33 @@ script = ExtResource("9_eeo41")
 [node name="HandgunItemBox" parent="ItemsContainer" instance=ExtResource("4_7p341")]
 layout_mode = 2
 item_types = Array[int]([0, 1])
-hint_texts = Array[String](["[center][color=#febcb8]shoot _[/color]
-0 bullets[/center]", "[center][color=#febcb8]shoot _[/color]
-1 bullet[/center]"])
+hint_texts = Array[String](["[color=#febcb8]shoot _[/color]
+0 bullets", "[color=#febcb8]shoot _[/color]
+1 bullet"])
 
 [node name="HoneyItemBox" parent="ItemsContainer" instance=ExtResource("4_7p341")]
 layout_mode = 2
 textures = Array[Texture]([ExtResource("6_stltu")])
 item_types = Array[int]([2])
-hint_texts = Array[String](["[center][color=#febcb8]_ honey[/color][/center]"])
+hint_texts = Array[String](["[color=#febcb8]_ honey[/color]"])
 
 [node name="KnifeItemBox" parent="ItemsContainer" instance=ExtResource("4_7p341")]
 layout_mode = 2
 textures = Array[Texture]([ExtResource("7_03x0f")])
 item_types = Array[int]([3])
-hint_texts = Array[String](["[center][color=#febcb8]cut _[/color][/center]"])
+hint_texts = Array[String](["[color=#febcb8]cut _[/color]"])
 
 [node name="FlashlightItemBox" parent="ItemsContainer" instance=ExtResource("4_7p341")]
 layout_mode = 2
 textures = Array[Texture]([ExtResource("8_14duu")])
 item_types = Array[int]([4])
-hint_texts = Array[String](["[center][color=#febcb8]switch[/color][/center]"])
+hint_texts = Array[String](["[color=#febcb8]switch[/color]"])
 
 [node name="KeyItemBox" parent="ItemsContainer" instance=ExtResource("4_7p341")]
 layout_mode = 2
 textures = Array[Texture]([ExtResource("9_vk4d5")])
 item_types = Array[int]([5])
-hint_texts = Array[String](["[center][color=#febcb8]unlock[/color][/center]"])
+hint_texts = Array[String](["[color=#febcb8]unlock[/color]"])
 
 [node name="TextBox" parent="." instance=ExtResource("15_lriqr")]
 clip_contents = false
@@ -101,7 +99,6 @@ clip_contents = false
 text = "sth sth "
 
 [node name="HintText" parent="." instance=ExtResource("9_0bkp4")]
-visible = false
 custom_minimum_size = Vector2(600, 0)
 anchors_preset = 0
 anchor_left = 0.0

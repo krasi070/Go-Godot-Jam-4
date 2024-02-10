@@ -10,7 +10,7 @@ size = Vector2(80, 200)
 size = Vector2(200, 80)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_riury"]
-size = Vector2(200, 30)
+size = Vector2(200, 25)
 
 [node name="EdgeAreas" type="Node2D"]
 position = Vector2(144.5, 108)
@@ -53,5 +53,5 @@ hint_text = "[center][color=#febcb8]west[/color]
 the silence [/center]"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NorthEdgeArea"]
-position = Vector2(0, -63)
+position = Vector2(0, -56)
 shape = SubResource("RectangleShape2D_riury")
